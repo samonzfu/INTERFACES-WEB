@@ -1,39 +1,49 @@
-(() => {
+/* =========================================================
+   smf | tema claro / oscuro
+   - Aplica data-tema="claro|oscuro" en <html> antes de pintar
+   - Recuerda la elección en localStorage (compartida por login e index)
+   - Si no hay elección guardada, sigue el tema del sistema
+   - Cualquier elemento con [data-cambiar-tema] alterna el tema
+   ========================================================= */
+(function () {
   "use strict";
+  const CLAVE = "smf-tema";
+  const raiz = document.documentElement;
+  const consulta = window.matchMedia("(prefers-color-scheme: dark)");
 
-  const claveTema = "smf-tema";
-  const botones = () => document.querySelectorAll("[data-tema-toggle]");
+  const leer = () => { try { return localStorage.getItem(CLAVE); } catch (e) { return null; } };
+  const guardar = (v) => { try { localStorage.setItem(CLAVE, v); } catch (e) { /* modo privado */ } };
+  const delSistema = () => (consulta.matches ? "oscuro" : "claro");
 
-  function aplicarTema(tema) {
-    document.documentElement.dataset.tema = tema;
-    botones().forEach((boton) => {
-      const temaDestino = tema === "oscuro" ? "claro" : "oscuro";
-      boton.textContent = temaDestino === "oscuro" ? "☾ Modo oscuro" : "☀ Modo claro";
-      boton.setAttribute("aria-label", `Cambiar a modo ${temaDestino}`);
-      boton.setAttribute("aria-pressed", String(tema === "oscuro"));
+  function etiquetar() {
+    const oscuro = raiz.dataset.tema === "oscuro";
+    document.querySelectorAll("[data-cambiar-tema]").forEach((b) => {
+      const texto = oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+      b.setAttribute("aria-label", texto);
+      b.title = texto;
+      b.setAttribute("aria-pressed", String(oscuro));
     });
   }
 
-  let temaGuardado = "claro";
-  try {
-    temaGuardado = localStorage.getItem(claveTema) === "oscuro" ? "oscuro" : "claro";
-  } catch (error) {
-    console.error("No se pudo leer el tema guardado.", error);
+  function aplicar(tema) {
+    raiz.dataset.tema = tema;
+    etiquetar();
+    document.dispatchEvent(new CustomEvent("tema:cambiado", { detail: { tema } }));
   }
-  aplicarTema(temaGuardado);
 
-  document.addEventListener("DOMContentLoaded", () => {
-    aplicarTema(document.documentElement.dataset.tema);
-    botones().forEach((boton) => {
-      boton.addEventListener("click", () => {
-        const tema = document.documentElement.dataset.tema === "oscuro" ? "claro" : "oscuro";
-        aplicarTema(tema);
-        try {
-          localStorage.setItem(claveTema, tema);
-        } catch (error) {
-          console.error("No se pudo guardar la preferencia de tema.", error);
-        }
-      });
-    });
+  // 1) antes del primer pintado, para evitar el parpadeo
+  raiz.dataset.tema = leer() || delSistema();
+
+  // 2) botones: delegación en document (sirve también para los creados después)
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-cambiar-tema]")) return;
+    const nuevo = raiz.dataset.tema === "oscuro" ? "claro" : "oscuro";
+    guardar(nuevo);
+    aplicar(nuevo);
   });
+
+  // 3) sincronizar entre pestañas y con el sistema (si no hay elección propia)
+  window.addEventListener("storage", (e) => { if (e.key === CLAVE && e.newValue) aplicar(e.newValue); });
+  consulta.addEventListener("change", () => { if (!leer()) aplicar(delSistema()); });
+  document.addEventListener("DOMContentLoaded", etiquetar);
 })();

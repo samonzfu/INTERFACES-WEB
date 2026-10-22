@@ -57,7 +57,6 @@ Después abre `http://localhost:8000`.
 
 ## Notas
 
-- El botón de tema del login y del índice alterna entre modo claro y oscuro; la preferencia se conserva al navegar entre ambas páginas.
 - Los cambios (crear, editar y eliminar) se guardan solo en memoria: al recargar vuelven los datos del JSON.
 - La URL guarda el módulo y la vista (`#productos/listado`), así que los botones atrás y adelante del navegador funcionan.
 - Pedidos y Configuración no tienen JSON todavía: muestran un estado vacío. Para activarlos basta con crear su JSON y enlazarlo en `menu.json`.
