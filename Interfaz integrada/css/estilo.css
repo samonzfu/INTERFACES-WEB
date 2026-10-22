@@ -84,6 +84,9 @@ main > section{width:var(--ancho-section);background:var(--seccion);color:var(--
 .contenido-columna article.arrastrando{opacity:.45}
 .ficha{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:#fff;font-weight:600;flex:none}
 .activo .ficha{background:#fff!important;color:var(--vino)}
+/* ficha con icono propio: baldosa blanca redondeada, legible en claro y oscuro */
+.ficha.ficha-icono,.activo .ficha.ficha-icono{width:32px;height:32px;border-radius:9px;background:#fff!important;box-shadow:0 0 0 1px rgba(58,22,48,.12);overflow:hidden}
+.ficha-icono img{width:100%;height:100%;display:block;object-fit:contain}
 .etiqueta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .minimizar{position:absolute;right:10px;bottom:10px;border:0;width:28px;height:28px;border-radius:50%;cursor:pointer;background:var(--noche3);color:#fff;font-size:11px;transition:background .2s}
@@ -140,6 +143,7 @@ td input[type=checkbox]{accent-color:var(--acento)}
 .mv-enlace:hover{text-decoration:underline}
 .mv-vacio{text-align:center;padding:48px 20px}
 .mv-vacio .ficha{width:56px;height:56px;margin:0 auto 12px;font-size:22px}
+.mv-vacio .ficha.ficha-icono{width:64px;height:64px;border-radius:16px}
 
 /* ---------- 8. Formularios ---------- */
 .mv-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}

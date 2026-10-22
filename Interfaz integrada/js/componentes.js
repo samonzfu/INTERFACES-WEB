@@ -128,10 +128,39 @@ window.mavr.iu = window.mavr.iu || {};
   }
 
   class FichaIU {
+    /** Iconos propios por nombre (sin tildes y en minúsculas). Lo que no esté aquí usa la letra. */
+    static ICONOS = {
+      login: "img/iconos/login.png",
+      eventos: "img/iconos/eventos.png",
+      identidad: "img/iconos/identidad.png",
+      configuracion: "img/iconos/configuracion.png",
+      formulario: "img/iconos/formularios.png",
+      formularios: "img/iconos/formularios.png",
+      controles: "img/iconos/controlador.jpg",
+      clientes: "img/iconos/clientes.jpg",
+      listado: "img/iconos/listado.jpg"
+    };
+
+    static icono(texto) {
+      const clave = String(texto ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+      return FichaIU.ICONOS[clave] || null;
+    }
+
     static completar(elemento, texto) {
       const ficha = DOM.uno(".ficha", elemento);
-      ficha.textContent = texto.charAt(0).toUpperCase();
-      ficha.style.background = Utilidades.colorTexto(texto);
+      const icono = FichaIU.icono(texto);
+      ficha.classList.toggle("ficha-icono", !!icono);
+      if (icono) {
+        ficha.textContent = "";
+        ficha.style.background = "";
+        const img = document.createElement("img");
+        img.src = icono;
+        img.alt = "";
+        ficha.appendChild(img);
+      } else {
+        ficha.textContent = texto.charAt(0).toUpperCase();
+        ficha.style.background = Utilidades.colorTexto(texto);
+      }
       DOM.uno(".etiqueta", elemento).textContent = texto;
       elemento.title = texto;
     }
@@ -753,7 +782,9 @@ window.mavr.iu = window.mavr.iu || {};
       const modulo = this.estado.modulo.texto;
       const tarjeta = this.tarjeta(`
         <div class="mv-vacio">
-          <div class="ficha" style="background:${Utilidades.colorTexto(modulo)}">${Utilidades.escapar(modulo.charAt(0))}</div>
+          ${FichaIU.icono(modulo)
+            ? `<div class="ficha ficha-icono"><img src="${FichaIU.icono(modulo)}" alt=""></div>`
+            : `<div class="ficha" style="background:${Utilidades.colorTexto(modulo)}">${Utilidades.escapar(modulo.charAt(0))}</div>`}
           <h2>${Utilidades.escapar(modulo)}</h2>
           <p>Este módulo todavía no tiene ${que}. Añade su archivo JSON en <code>data/</code> y enlázalo en <code>menu.json</code>.</p>
         </div>`);
