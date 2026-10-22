@@ -1,0 +1,49 @@
+{
+  "nombre": "smf | interfaz integrada",
+  "lema": "Una interfaz serena, cercana y redondeada, con una paleta ciruela y rosa.",
+  "colores": [
+    {
+      "variable": "--noche",
+      "nombre": "Ciruela noche",
+      "significado": "Elegancia y profundidad. Base de la cabecera, del menú principal y de la barra de estado."
+    },
+    {
+      "variable": "--vino",
+      "nombre": "Vino",
+      "significado": "Estado de énfasis: hover de botones, enlaces y textos destacados sobre fondo claro."
+    },
+    {
+      "variable": "--rosa",
+      "nombre": "Rosa ciruela",
+      "significado": "Color de acción. Solo se usa para lo que se puede pulsar o lo que está activo."
+    },
+    {
+      "variable": "--rosa-claro",
+      "nombre": "Rosa pálido",
+      "significado": "Acompaña al rosa en fondos y estados de foco sin cansar la vista."
+    },
+    {
+      "variable": "--crema",
+      "nombre": "Blanco rosado",
+      "significado": "Calidez y lectura cómoda en el escenario de trabajo."
+    },
+    {
+      "variable": "--seccion",
+      "nombre": "Rosa niebla",
+      "significado": "Separa la columna de vistas del escenario sin usar líneas duras."
+    }
+  ],
+  "tipografia": {
+    "familia": "Ubuntu, Segoe UI, Roboto, Arial, sans-serif",
+    "motivo": "Tipografía de palo seco, redondeada y muy legible en pantalla."
+  },
+  "formas": {
+    "radio": "Esquinas redondeadas en tarjetas, botones en forma de píldora y fichas circulares.",
+    "motivo": "Las formas redondas transmiten cercanía y suavizan una paleta oscura, igual que el círculo del logo."
+  },
+  "logo": {
+    "archivo": "img/logo-claro.png",
+    "archivoOscuro": "img/logo-oscuro.png",
+    "motivo": "Zorro dormido dentro de un círculo, en dos versiones: la ciruela para fondos claros y la rosa pálida para fondos oscuros como la cabecera."
+  }
+}
