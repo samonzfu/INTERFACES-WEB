@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>mavr | interfaz integrada</title>
+  <title>smf | interfaz integrada</title>
   <link rel="icon" href="img/logo-claro.png" type="image/png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/logo-oscuro.png" type="image/png" media="(prefers-color-scheme: dark)">
   <script src="js/tema.js"></script>
@@ -85,6 +85,29 @@
   </div>
 
   <div class="mv-toast-pila" id="mvToasts" aria-live="polite"></div>
+
+  <!-- ==================== UD2 · ASISTENTE (interfaces naturales) ==================== -->
+  <section class="mv-asistente" id="mvAsistente" aria-label="Asistente de inteligencia artificial">
+    <div class="mv-asistente-barra" id="mvAsistenteBarra" title="Arrastra para mover">
+      <span class="mv-asistente-chispa">✦</span>
+      <span>Asistente local</span>
+      <button class="mv-asistente-minimizar" id="mvAsistenteMinimizar" type="button" title="Minimizar" aria-label="Minimizar">—</button>
+    </div>
+    <div class="mv-asistente-redactar">
+      <textarea id="mvAsistenteEntrada" rows="1" placeholder="Escribe o dicta lo que necesitas…"></textarea>
+      <button class="mv-asistente-micro" id="mvAsistenteMicro" type="button" title="Entrada por voz" aria-label="Entrada por voz">🎤</button>
+      <button class="mv-asistente-enviar" id="mvAsistenteEnviar" type="button" title="Enviar (Intro)" aria-label="Enviar">➜</button>
+    </div>
+    <div class="mv-asistente-opciones">
+      <label class="mv-interruptor" title="Leer en voz alta la respuesta">
+        <input id="mvAsistenteHablar" type="checkbox">
+        <span class="mv-interruptor-pista"><span class="mv-interruptor-boton"></span></span>
+        <span>Hablar respuesta</span>
+      </label>
+      <span class="mv-asistente-estado" id="mvAsistenteEstado" aria-live="polite"></span>
+    </div>
+    <div class="mv-asistente-redimensionar" id="mvAsistenteRedimensionar" title="Arrastra para redimensionar"></div>
+  </section>
 
   <!-- Los <template> se cargan desde la carpeta templates/ (componentes externos) -->
   <script src="js/componentes.js"></script>

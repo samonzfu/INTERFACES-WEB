@@ -1,62 +1,84 @@
-# mavr | interfaz integrada · 003 · UD1 completa
+# mavr | interfaz integrada · 004 · Implementación de interfaces naturales
 
-Proyecto final de la **UD1 · Generación de interfaces de usuario**. Parte de `001-Uniendo` (rediseño mavr) y `002-mejoras` (login, toasts y minimizar con memoria) e integra todo lo trabajado en las subunidades 001 a 010.
+Iteración de la **UD2 · Generación de interfaces naturales de usuario**. Parte de `003-UD1-completa` y le añade, igual que en el proyecto de referencia (`Material_DI/002-…/002-Interfaces naturales/005-Habla`), un **asistente flotante** que combina tres interfaces naturales:
 
-## Ejecutar
+| Interfaz natural | Tecnología | Qué hace en la interfaz |
+|---|---|---|
+| Lenguaje natural | Modelo local con **Ollama** (`phi3:mini`) a través de `ollama.php` | Escribes una petición en lenguaje natural y la respuesta (en Markdown) se pinta en el escenario: títulos, listas, tablas, citas y código. |
+| Voz a texto | Web Speech API · `SpeechRecognition` | El botón 🎤 dicta la petición en español (`es-ES`). |
+| Texto a voz | Web Speech API · `SpeechSynthesis` | Con el interruptor «Hablar respuesta» la respuesta se lee en voz alta. `Esc` detiene la lectura. |
 
-El proyecto usa `fetch()` para los JSON y las plantillas, así que no funciona abriendo `index.html` con doble clic (`file://`). Desde esta carpeta:
+La ventana del asistente se **arrastra** desde su barra, se **minimiza** con «—» y se **redimensiona** desde la esquina inferior derecha.
 
-```bash
-python -m http.server 8000
+## Requisitos para ejecutarlo
+
+Esta versión ya no basta con `python -m http.server`, porque necesita PHP para hablar con Ollama.
+
+1. Instala **Ollama** (https://ollama.com) y descarga el modelo:
+   ```bash
+   ollama pull phi3:mini
+   ```
+2. Comprueba que tienes PHP con la extensión `curl` activada (en XAMPP ya viene).
+3. Desde esta carpeta, arranca el servidor de PHP:
+   ```bash
+   php -S localhost:8000
+   ```
+4. Abre `http://localhost:8000` en **Chrome o Edge** (Firefox no tiene `SpeechRecognition`; en ese caso el micrófono aparece desactivado).
+
+El micrófono solo funciona en `localhost` o con HTTPS, y el navegador pedirá permiso la primera vez.
+
+Para cambiar de modelo, edita la variable `$modelo` al principio de `ollama.php`.
+
+## Qué se ha añadido respecto a 003
+
+```
+004-implementacion de interfaces naturales/
+├── ollama.php          NUEVO · puente navegador → Ollama (localhost:11434)
+├── index.html          + bloque <section id="mvAsistente">
+├── css/estilo.css      + sección 16: asistente, interruptor y respuesta Markdown
+└── js/componentes.js   + clases MarkdownIU, VozIU y AsistenteIU
 ```
 
-Después abre `http://localhost:8000`.
-
-## Estructura
-
-```
-003-UD1-completa/
-├── index.html          estructura semántica: header, nav, section, main, footer, aside
-├── login.html          pantalla de acceso a pantalla completa
-├── css/estilo.css      identidad mavr (variables en :root) y componentes con prefijo mv-
-├── js/componentes.js   clases en el namespace mavr.iu
-├── templates/          componentes externos: nav, tarjeta, fila y toast
-├── data/               orígenes de datos JSON
-│   ├── menu.json       módulos y qué JSON usa cada uno
-│   ├── entidades.json  vistas de la columna central
-│   ├── clientes.json   tabla de clientes (formato columnas/registros)
-│   ├── datos.json      formulario de clientes (formato campos/datos)
-│   ├── productos.json  tabla y formulario de productos (formato campos/datos)
-│   └── identidad.json  manual de identidad corporativa
-└── img/logo.svg
-```
-
-## Qué subunidad cubre cada parte
-
-| Subunidad | Dónde se ve en la interfaz |
+| Clase | Responsabilidad |
 |---|---|
-| **001 · Patrones de arquitectura** | Patrón de aplicación de gestión: cabecera + módulos + vistas + escenario + barra de estado. Vista **Identidad**: manual de identidad (colores con significado, tipografía, formas y logo) leído de `identidad.json` y de las variables CSS. |
-| **002 · Librerías de componentes** | Vista **Controles**: todos los controles nativos (20 tipos de `input`; `submit` y `reset` como `button`, `textarea`, `select` con `optgroup`, `button`, `fieldset`/`legend`, `label`, `datalist`, `output`, `progress` y `meter`). |
-| **003 · Herramientas de edición** | Proyecto editado en VS Code; las carpetas 001 → 002 → 003 muestran la evolución del código. |
-| **004 · Lenguajes descriptivos** | `index.html` usa `header`, `nav`, `section`, `main`, `aside`, `article` y `footer`; el estilo está separado en `css/estilo.css`. |
-| **005 · Componentes** | `<template>` cargados desde `templates/*.html` y clonados con `cloneNode()`: fichas del menú, tarjetas de vistas, filas de tabla y toasts. Librería de componentes reutilizables: toast, modal, panel lateral y login. |
-| **006 · Enlace a orígenes de datos** | `menu.json` dice qué JSON usa cada módulo. La misma clase `TablaIU` pinta clientes y productos aunque tengan formatos distintos, y `FormularioIU` genera el formulario de cada módulo desde su JSON (reutilización). |
-| **007 · Acciones y eventos** | Clic en módulos, vistas y cabeceras de tabla (ordenar). Doble clic o Intro en una fila para editar. Búsqueda en directo (`input`). Arrastrar una vista al escenario (drag & drop). Separadores redimensionables (pointer events). Minimizar y restaurar columnas. |
-| **008 · Edición del código generado** | Código del tutor adaptado: nombres, paleta suavizada, formas redondeadas, drawer en dos columnas, barra de estado y vistas nuevas. |
-| **009 · Clases, propiedades, métodos** | Todo el JS está en clases (`AplicacionIU`, `TablaIU`, `FormularioIU`, `DrawerIU`, `ModalIU`, `ToastIU`, `GestorColumnas`, `BarraEstado`…) con constructor, propiedades y métodos, expuestas en `window.mavr.iu`. |
-| **010 · Eventos y escuchadores** | Vista **Eventos**: laboratorio con ratón, teclado, foco, portapapeles y propagación (burbuja, captura y `stopPropagation`). Delegación de eventos en Controles y Toasts. `invalid` escuchado en fase de captura. Eventos de ventana: `hashchange` (atrás/adelante), `online`/`offline`, `resize`, `DOMContentLoaded`. |
+| `MarkdownIU` | Convierte el Markdown del modelo en HTML seguro (todo se escapa). Corrige errores típicos de los LLM: respuesta envuelta en un bloque `markdown`, tablas dentro de un bloque de código, barras y guiones Unicode y espacios invisibles. |
+| `VozIU` | Encapsula la Web Speech API: `escuchar()` con `SpeechRecognition` y `hablar()` con `SpeechSynthesisUtterance`, eligiendo una voz `es-ES` si el sistema la tiene. Comprueba si el navegador lo soporta. |
+| `AsistenteIU` | Ventana flotante: envía el prompt con `fetch()` a `ollama.php`, pinta la respuesta en el escenario, gestiona el micrófono, el interruptor de voz, el arrastre, el minimizado y el redimensionado con pointer events. |
 
-## Atajos de teclado
+Otros ajustes:
 
-| Atajo | Acción |
+- Los toasts pasan arriba a la derecha para no quedar tapados por el asistente.
+- La barra de estado anota los eventos del asistente (`submit`, `start`, `result`, `change`…).
+- Si Ollama no está en marcha, `ollama.php` responde con un error 502 y la interfaz muestra un toast explicando qué revisar.
+
+## Qué hay en el material de la UD2 y qué se integra
+
+| Subunidad del material | ¿Integrada en la interfaz? |
 |---|---|
-| `Ctrl` + `K` | Ir al buscador |
-| `Alt` + `N` | Nuevo registro en el panel lateral |
-| `Esc` | Cerrar el modal o el panel lateral |
-| `Intro` | Editar la fila seleccionada / abrir la vista enfocada |
+| 001 · Herramientas de aprendizaje automático (chatbot con Ollama) | **Sí**: es el motor del asistente (`ollama.php`). |
+| 002 · Interfaces naturales (proyecto de la UD1 + prompt IA) | **Sí**: es la base de esta iteración. |
+| 003 · Voz y habla (síntesis y reconocimiento) | **Sí**: micrófono e interruptor «Hablar respuesta». |
+| 004 · Partes y movimientos del cuerpo (MediaPipe: cara, manos, avatar) | No, porque no aporta nada a una aplicación de gestión. Copiados con el estilo mavr en `ejercicios/cuerpo/`. |
+| 005 · Realidad aumentada (A-Frame) | No, por el mismo motivo. Copiados con el estilo mavr en `ejercicios/realidad-aumentada/`. |
 
-## Notas
+## Ejercicios independientes
 
-- Los cambios (crear, editar y eliminar) se guardan solo en memoria: al recargar vuelven los datos del JSON.
-- La URL guarda el módulo y la vista (`#productos/listado`), así que los botones atrás y adelante del navegador funcionan.
-- Pedidos y Configuración no tienen JSON todavía: muestran un estado vacío. Para activarlos basta con crear su JSON y enlazarlo en `menu.json`.
+Con el servidor en marcha, entra en `http://localhost:8000/ejercicios/`: es un índice con todos los ejercicios de cuerpo y realidad aumentada.
+
+```
+ejercicios/
+├── index.html             índice con tarjetas
+├── css/ejercicios.css     estilo mavr común (se carga después del <style> de cada ejercicio)
+├── cuerpo/                11 ejercicios + spritesheet.png y spritesheetA.png
+└── realidad-aumentada/    8 ejercicios
+```
+
+Cambios respecto al material original (la lógica de cada ejercicio no se ha tocado):
+
+- Cabecera mavr con logo y botón «← Ejercicios» (o un botón flotante en los de pantalla completa).
+- Tipografía, paleta grafito + naranja y esquinas redondeadas.
+- Colores de dibujo del canvas (recuadros, puntos, mallas) pasados a la paleta mavr.
+- Los avatares con chat usan el `ollama.php` de la raíz (`../../ollama.php`).
+- `006-raton.html` muestra además las coordenadas en pantalla, no solo en la consola.
+
+Necesitan cámara (y los avatares, micrófono), y cargan MediaPipe y A-Frame desde internet.
