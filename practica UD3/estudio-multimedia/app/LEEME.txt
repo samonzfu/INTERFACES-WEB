@@ -1,0 +1,13 @@
+ESTUDIO MULTIMEDIA - Desarrollo de interfaces web
+
+Abrir index.html en el navegador (no necesita servidor).
+
+Estructura:
+  index.html
+  css/estilos.css
+  js/app.js
+  media/  (imagen WebP/JPG/SVG, audio MP3/OGG, vídeo MP4/WebM)
+
+Antes de entregar, valida:
+  HTML: https://validator.w3.org/
+  CSS:  https://jigsaw.w3.org/css-validator/

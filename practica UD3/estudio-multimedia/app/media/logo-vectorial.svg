@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+<title id="t">Logotipo vectorial: sol sobre montañas</title>
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d3e1"/><stop offset="1" stop-color="#aa597a"/></linearGradient></defs>
+<rect width="200" height="200" rx="28" fill="#3a1630"/>
+<circle cx="100" cy="85" r="38" fill="url(#g)"/>
+<path d="M0 160 L50 110 L85 145 L125 100 L200 170 L200 200 L0 200Z" fill="#893e5d"/>
+<path d="M0 185 L60 140 L110 175 L160 135 L200 165 L200 200 L0 200Z" fill="#240d1e"/>
+</svg>
