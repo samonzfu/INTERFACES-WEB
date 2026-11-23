@@ -6,7 +6,7 @@ Estructura:
   index.html
   css/estilos.css
   js/app.js
-  media/  (imagen WebP/JPG/SVG, audio MP3/OGG, vídeo MP4/WebM)
+  media/  (imagen WebP/JPG/PNG/SVG, audio MP3/OGG, vídeo MP4/WebM)
 
 Antes de entregar, valida:
   HTML: https://validator.w3.org/

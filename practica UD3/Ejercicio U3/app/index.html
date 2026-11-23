@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estudio multimedia · Desarrollo de interfaces web</title>
+  <meta name="description" content="Mini app multimedia con imagen optimizada, audio y vídeo HTML5, animación y efectos básicos.">
+  <meta name="theme-color" content="#3a1630">
+  <link rel="icon" href="media/logo-vectorial.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('tema'); } catch (e) {}
+      if (!t) { t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro'; }
+      document.documentElement.setAttribute('data-tema', t);
+    })();
+  </script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- BARRA SUPERIOR FIJA -->
+  <header class="barra">
+    <div class="progreso" aria-hidden="true"><span id="progreso"></span></div>
+    <div class="barra-interior">
+      <a class="marca" href="#inicio" aria-label="samonzfu, ir al inicio">
+        <img src="media/logo-vectorial.svg" alt="" width="36" height="36">
+        <span>samonzfu</span>
+      </a>
+
+      <nav class="menu" id="menu" aria-label="Secciones">
+        <ul>
+          <li><a href="#imagen">Imagen</a></li>
+          <li><a href="#audio">Audio</a></li>
+          <li><a href="#video">Vídeo</a></li>
+          <li><a href="#animacion">Animación</a></li>
+          <li><a href="#efectos">Efectos</a></li>
+          <li><a href="#licencias">Licencias</a></li>
+        </ul>
+      </nav>
+
+      <button type="button" id="btnTema" class="btn-icono" aria-pressed="false" aria-label="Modo oscuro" title="Cambiar entre modo claro y oscuro">
+        <svg class="ico-luna" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M20.3 14.6A8.5 8.5 0 0 1 9.4 3.7a.7.7 0 0 0-.9-.9A10 10 0 1 0 21.2 15.5a.7.7 0 0 0-.9-.9Z"/></svg>
+        <svg class="ico-sol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PORTADA -->
+  <div class="hero" id="inicio">
+    <img class="hero-img" src="media/paisaje.webp" alt="" width="1200" height="675" fetchpriority="high">
+    <div class="hero-cuerpo">
+      <h1>Estudio multimedia</h1>
+      <p class="subtitulo">Mini app de recursos multimedia para Desarrollo de interfaces web.</p>
+      <div class="hero-acciones">
+        <a class="btn" href="#imagen">Empezar</a>
+        <a class="btn btn-claro" href="#licencias">Fuentes y licencias</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="contenido">
+    <!-- 1. IMAGEN -->
+    <section id="imagen" aria-labelledby="t-imagen">
+      <h2 id="t-imagen">Imagen: mapa de bits frente a vectorial</h2>
+      <p class="intro">La imagen de abajo es un <strong>mapa de bits</strong>: está formada por píxeles y pierde calidad al ampliarla. El logotipo de la cabecera es <strong>vectorial (SVG)</strong>: se define con formas matemáticas y se escala sin pérdida.</p>
+
+      <figure class="foto">
+        <picture>
+          <source srcset="media/paisaje-small.webp 480w, media/paisaje.webp 1200w" sizes="(max-width: 600px) 100vw, 1000px" type="image/webp">
+          <img src="media/paisaje.jpg" alt="Paisaje de montañas violetas con un sol al atardecer" width="1200" height="675" loading="lazy">
+        </picture>
+        <figcaption>Paisaje generado por código (WebP con alternativa JPG).</figcaption>
+      </figure>
+
+      <div class="banco" aria-labelledby="t-zoom">
+        <h3 id="t-zoom">Amplía y compara</h3>
+        <p class="nota">Es el mismo logotipo en los dos casos. Sube el zoom y mira cómo se comporta el borde del sol.</p>
+
+        <div class="zoom-ctrl">
+          <label for="zoom">Zoom: <output id="zoomValor">1</output>×</label>
+          <input type="range" id="zoom" min="1" max="12" step="0.5" value="1">
+        </div>
+
+        <div class="comparador">
+          <figure>
+            <div class="lente"><img id="lenteBits" src="media/logo-mapa-bits.png" alt="Logotipo en mapa de bits, ampliado" width="320" height="320"></div>
+            <figcaption><strong>Mapa de bits</strong> (PNG, 320 × 320 px)</figcaption>
+          </figure>
+          <figure>
+            <div class="lente"><img id="lenteSvg" src="media/logo-vectorial.svg" alt="Logotipo vectorial, ampliado" width="320" height="320"></div>
+            <figcaption><strong>Vectorial</strong> (SVG)</figcaption>
+          </figure>
+        </div>
+        <p class="estado" id="zoomEstado">Con poco zoom los dos se ven igual.</p>
+      </div>
+
+      <h3>Optimización: peso frente a calidad</h3>
+      <div class="tabla-wrap">
+        <table>
+          <caption>Comparativa de la misma imagen en distintos formatos</caption>
+          <thead>
+            <tr><th scope="col">Versión</th><th scope="col">Formato</th><th scope="col">Dimensiones</th><th scope="col">Peso aprox.</th><th scope="col">Ahorro</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="Versión">Original sin optimizar</td><td data-label="Formato">PNG</td><td data-label="Dimensiones">1600×900</td><td data-label="Peso aprox.">2,67 MB</td><td data-label="Ahorro">Referencia</td></tr>
+            <tr><td data-label="Versión">Fallback</td><td data-label="Formato">JPG calidad 80, progresivo</td><td data-label="Dimensiones">1200×675</td><td data-label="Peso aprox.">56,6 KB</td><td data-label="Ahorro"><span class="ahorro">−97,9 %</span></td></tr>
+            <tr><td data-label="Versión">Versión principal</td><td data-label="Formato">WebP calidad 78</td><td data-label="Dimensiones">1200×675</td><td data-label="Peso aprox.">11,9 KB</td><td data-label="Ahorro"><span class="ahorro">−99,6 %</span></td></tr>
+            <tr><td data-label="Versión">Versión móvil</td><td data-label="Formato">WebP calidad 75</td><td data-label="Dimensiones">480×270</td><td data-label="Peso aprox.">2,4 KB</td><td data-label="Ahorro"><span class="ahorro">−99,9 %</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="nota">Se ha reducido el tamaño de píxeles al máximo que se muestra y se ha usado un formato con compresión con pérdida moderada. El navegador elige la versión con <code>&lt;picture&gt;</code> y <code>srcset</code>.</p>
+    </section>
+
+    <!-- 2. AUDIO -->
+    <section id="audio" aria-labelledby="t-audio">
+      <h2 id="t-audio">Audio HTML5</h2>
+      <p class="intro">El elemento <code>&lt;audio&gt;</code> con <code>controls</code> reproduce un archivo. El <em>contenedor</em> (MP3, OGG) es el «envoltorio» del archivo y el <em>códec</em> (MP3, Vorbis) es el algoritmo que comprime el sonido.</p>
+
+      <div class="banco reproductor" id="bancoAudio">
+        <div class="disco" aria-hidden="true">
+          <span class="disco-sol"></span>
+          <div class="eq"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="reproductor-cuerpo">
+          <audio id="audio-el" controls preload="metadata">
+            <source src="media/melodia.mp3" type="audio/mpeg">
+            <source src="media/melodia.ogg" type="audio/ogg">
+            Tu navegador no admite el elemento audio.
+          </audio>
+
+          <fieldset class="segmentado" id="formatoAudio">
+            <legend>Probar con otro formato</legend>
+            <label><input type="radio" name="formatoAudio" value="media/melodia.mp3" data-tipo="audio/mpeg" data-contenedor="MP3" data-codec="MP3" data-peso="87,6 KB" checked><span>MP3</span></label>
+            <label><input type="radio" name="formatoAudio" value="media/melodia.ogg" data-tipo="audio/ogg" data-contenedor="OGG" data-codec="Vorbis" data-peso="24,8 KB"><span>OGG</span></label>
+          </fieldset>
+
+          <dl class="ficha" id="fichaAudio" aria-live="polite">
+            <div><dt>Contenedor</dt><dd data-campo="contenedor">MP3</dd></div>
+            <div><dt>Códec</dt><dd data-campo="codec">MP3</dd></div>
+            <div><dt>Peso</dt><dd data-campo="peso">87,6 KB</dd></div>
+          </dl>
+        </div>
+      </div>
+      <p class="nota">Melodía sintetizada de unos 8 segundos (MP3 a 96 kbps y OGG Vorbis).</p>
+    </section>
+
+    <!-- 3. VÍDEO -->
+    <section id="video" aria-labelledby="t-video">
+      <h2 id="t-video">Vídeo HTML5</h2>
+      <p class="intro">El elemento <code>&lt;video&gt;</code> ofrece dos fuentes: <strong>MP4</strong> (contenedor MP4, códec H.264) y <strong>WebM</strong> (contenedor WebM, códec VP9). El navegador usa la primera que pueda reproducir.</p>
+
+      <div class="banco" id="bancoVideo">
+        <video id="video-el" controls preload="metadata" width="640" height="360" poster="media/amanecer-poster.webp">
+          <source src="media/amanecer.mp4" type="video/mp4">
+          <source src="media/amanecer.webm" type="video/webm">
+          Tu navegador no admite el elemento video.
+        </video>
+
+        <div class="video-pie">
+          <fieldset class="segmentado" id="formatoVideo">
+            <legend>Probar con otro formato</legend>
+            <label><input type="radio" name="formatoVideo" value="media/amanecer.mp4" data-tipo="video/mp4" data-contenedor="MP4" data-codec="H.264" data-peso="23,6 KB" checked><span>MP4</span></label>
+            <label><input type="radio" name="formatoVideo" value="media/amanecer.webm" data-tipo="video/webm" data-contenedor="WebM" data-codec="VP9" data-peso="22,1 KB"><span>WebM</span></label>
+          </fieldset>
+
+          <dl class="ficha" id="fichaVideo" aria-live="polite">
+            <div><dt>Contenedor</dt><dd data-campo="contenedor">MP4</dd></div>
+            <div><dt>Códec</dt><dd data-campo="codec">H.264</dd></div>
+            <div><dt>Peso</dt><dd data-campo="peso">23,6 KB</dd></div>
+          </dl>
+        </div>
+      </div>
+      <p class="nota">Animación de 5 segundos a 24 fotogramas por segundo (120 fotogramas en total).</p>
+    </section>
+
+    <!-- 4. ANIMACIÓN -->
+    <section id="animacion" aria-labelledby="t-animacion">
+      <h2 id="t-animacion">Animación: fotograma, capa y FPS</h2>
+      <p class="intro">Una animación es una sucesión de <strong>fotogramas</strong>. Cada fotograma se compone de varias <strong>capas</strong> superpuestas (fondo, sol, montañas). Los <strong>FPS</strong> indican cuántos fotogramas se muestran por segundo.</p>
+
+      <div class="banco dos-col">
+        <canvas id="lienzo" width="640" height="360" role="img" aria-label="Animación de un amanecer sobre montañas, dibujada por capas"></canvas>
+
+        <div class="panel">
+          <div class="controles">
+            <button type="button" id="btnAnterior" class="btn-icono btn-icono-sec" aria-label="Fotograma anterior" title="Fotograma anterior">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M6 5h2v14H6zM19 5.5v13a.8.8 0 0 1-1.2.7L9.2 13a1.2 1.2 0 0 1 0-2l8.6-6.2a.8.8 0 0 1 1.2.7Z"/></svg>
+            </button>
+            <button type="button" id="btnPlay" class="btn" data-reproduciendo="true">
+              <svg class="ico-pausa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+              <svg class="ico-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 4.8v14.4a.8.8 0 0 0 1.2.7l11.4-7.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8Z"/></svg>
+              <span id="txtPlay">Pausa</span>
+            </button>
+            <button type="button" id="btnPaso" class="btn-icono btn-icono-sec" aria-label="Siguiente fotograma" title="Siguiente fotograma">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16 5h2v14h-2zM5 5.5v13a.8.8 0 0 0 1.2.7l8.6-6.2a1.2 1.2 0 0 0 0-2L6.2 4.8A.8.8 0 0 0 5 5.5Z"/></svg>
+            </button>
+          </div>
+
+          <label for="fotogramaRango">Fotograma</label>
+          <input type="range" id="fotogramaRango" min="1" max="60" value="1">
+
+          <label for="fps">FPS: <output id="fpsValor">12</output></label>
+          <input type="range" id="fps" min="1" max="30" value="12">
+
+          <p class="datos">Fotograma <output id="fotograma">0</output> de 60 · Duración del bucle: <output id="duracion">5,0</output> s</p>
+
+          <fieldset class="capas">
+            <legend>Capas visibles</legend>
+            <label class="interruptor"><input type="checkbox" id="capaFondo" checked><span class="pista" aria-hidden="true"></span>Fondo (cielo)</label>
+            <label class="interruptor"><input type="checkbox" id="capaSol" checked><span class="pista" aria-hidden="true"></span>Sol</label>
+            <label class="interruptor"><input type="checkbox" id="capaMontes" checked><span class="pista" aria-hidden="true"></span>Montañas</label>
+          </fieldset>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. EFECTOS -->
+    <section id="efectos" aria-labelledby="t-efectos">
+      <h2 id="t-efectos">Efectos básicos: brillo, tinte y transparencia</h2>
+      <p class="intro">Prueba los tres efectos sobre la imagen. Se aplican con CSS (<code>filter</code> y <code>opacity</code>) sin modificar el archivo original.</p>
+
+      <div class="banco dos-col">
+        <div class="visor">
+          <div class="visor-fondo" aria-hidden="true"></div>
+          <img id="imgEfecto" src="media/paisaje.webp" alt="Paisaje con efectos de brillo, tinte y transparencia aplicados" width="1200" height="675">
+        </div>
+
+        <div class="panel">
+          <div class="presets" role="group" aria-label="Combinaciones rápidas">
+            <button type="button" class="chip" data-preset="100,0,100" aria-pressed="true">Original</button>
+            <button type="button" class="chip" data-preset="115,320,100" aria-pressed="false">Cálido</button>
+            <button type="button" class="chip" data-preset="100,190,100" aria-pressed="false">Frío</button>
+            <button type="button" class="chip" data-preset="60,250,100" aria-pressed="false">Noche</button>
+            <button type="button" class="chip" data-preset="130,0,45" aria-pressed="false">Fantasma</button>
+          </div>
+
+          <label for="brillo">Brillo: <output id="brilloValor">100</output>%</label>
+          <input type="range" id="brillo" min="20" max="200" value="100">
+
+          <label for="tinte">Tinte (rotación de matiz): <output id="tinteValor">0</output>°</label>
+          <input type="range" id="tinte" min="0" max="360" value="0">
+
+          <label for="opacidad">Transparencia (opacidad): <output id="opacidadValor">100</output>%</label>
+          <input type="range" id="opacidad" min="0" max="100" value="100">
+
+          <div class="codigo">
+            <code id="codigoCss">filter: brightness(1) hue-rotate(0deg); opacity: 1;</code>
+          </div>
+
+          <div class="controles">
+            <button type="button" id="copiar" class="btn btn-sec">Copiar CSS</button>
+            <button type="button" id="reiniciar" class="btn btn-sec">Restablecer</button>
+            <span class="aviso" id="avisoCopia" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. LICENCIAS (desplegable) -->
+    <section id="licencias" class="sec-licencias">
+      <details class="desplegable" id="detLicencias">
+        <summary>
+          <span class="sum-texto">
+            <h2 id="t-licencias">Fuentes y licencias</h2>
+            <span class="sum-ayuda">4 recursos propios con licencia CC BY 4.0 y nociones de derechos de autor</span>
+          </span>
+          <span class="sum-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </summary>
+
+        <div class="desp-cuerpo">
+          <p>Todos los recursos de esta página se han creado expresamente para el proyecto mediante código, por lo que no dependen de material de terceros.</p>
+
+          <div class="tabla-wrap">
+            <table>
+              <caption>Recursos multimedia utilizados</caption>
+              <thead>
+                <tr><th scope="col">Recurso</th><th scope="col">Archivo</th><th scope="col">Autoría / fuente</th><th scope="col">Licencia</th></tr>
+              </thead>
+              <tbody>
+                <tr><td data-label="Recurso">Paisaje (imagen)</td><td data-label="Archivo">paisaje.webp / .jpg</td><td data-label="Autoría / fuente">Creación propia · samonzfu (Python + Pillow)</td><td data-label="Licencia"><a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license noopener">CC BY 4.0</a></td></tr>
+                <tr><td data-label="Recurso">Logotipo (SVG)</td><td data-label="Archivo">logo-vectorial.svg / logo-mapa-bits.png</td><td data-label="Autoría / fuente">Creación propia · samonzfu</td><td data-label="Licencia"><a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license noopener">CC BY 4.0</a></td></tr>
+                <tr><td data-label="Recurso">Melodía (audio)</td><td data-label="Archivo">melodia.mp3 / .ogg</td><td data-label="Autoría / fuente">Creación propia · samonzfu (síntesis con Python)</td><td data-label="Licencia"><a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license noopener">CC BY 4.0</a></td></tr>
+                <tr><td data-label="Recurso">Amanecer (vídeo)</td><td data-label="Archivo">amanecer.mp4 / .webm</td><td data-label="Autoría / fuente">Creación propia · samonzfu (Pillow + FFmpeg)</td><td data-label="Licencia"><a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license noopener">CC BY 4.0</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Derechos de autor</h3>
+          <ul class="derechos">
+            <li><strong>Derechos morales:</strong> irrenunciables e inalienables (reconocimiento de la autoría, integridad de la obra).</li>
+            <li><strong>Derechos patrimoniales:</strong> explotación económica (reproducción, distribución, comunicación pública, transformación). Se pueden ceder o licenciar.</li>
+            <li><strong>Entidades de gestión:</strong> como SGAE o CEDRO, gestionan los derechos patrimoniales de los autores y cobran por su uso.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>© 2026 samonzfu · Sara · Desarrollo de interfaces web · Recursos propios bajo licencia CC BY 4.0</p>
+  </footer>
+
+  <a href="#inicio" class="subir" id="subir" aria-label="Volver arriba" title="Volver arriba">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m6 15 6-6 6 6"/></svg>
+  </a>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
