@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sala arcade retro con minijuego y ejemplos interactivos de imagen, audio y vídeo.">
+  <title>Sala arcade de Sara · Multimedia</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="barra-superior">
+      <span>★ PORTAL MULTIMEDIA ★</span>
+      <span class="estado"><span class="punto"></span> Sala abierta</span>
+    </div>
+    <p class="cinta">★ Juegos · Música · Vídeo ★</p>
+    <h1>La sala arcade de Sara</h1>
+    <p class="subtitulo">Minijuegos, música, vídeos y sorpresas para pasar un buen rato.</p>
+    <nav aria-label="Secciones">
+      <a href="#arcade">Jugar</a>
+      <a href="#imagen">Imagen</a>
+      <a href="#audio">Audio</a>
+      <a href="#video">Vídeo</a>
+      <a href="#youtube">YouTube</a>
+      <a href="#interactivo">Interactivo</a>
+      <a href="#fuentes">Info y fuentes</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="arcade" class="caja c-rosa">
+      <h2>★ Juego destacado: ¡Atrapa al capibara! ★</h2>
+      <div class="juego-contenido">
+        <div class="juego-info">
+          <span class="etiqueta">RETO RÁPIDO · 15 SEGUNDOS</span>
+          <p>Haz clic en el capibara tantas veces como puedas antes de que se acabe el tiempo.</p>
+          <button type="button" class="boton" id="btn-iniciar">¡Empezar a jugar!</button>
+          <div class="marcador" aria-label="Marcador del juego">
+            <p>Puntos <strong id="puntuacion">0</strong></p>
+            <p>Tiempo <strong><span id="tiempo">15</span>s</strong></p>
+            <p>Récord <strong id="record">0</strong></p>
+          </div>
+          <p id="mensaje-juego" class="resultado" aria-live="polite">¿Preparada? ¡A por el récord!</p>
+        </div>
+        <div id="tablero-juego" class="tablero-juego" aria-label="Tablero del juego">
+          <span class="tablero-pista">¡El capibara aparecerá aquí!</span>
+          <button type="button" id="objetivo-juego" class="objetivo-juego" aria-label="Atrapar al capibara" hidden>🐹</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="imagen" class="caja c-rosa">
+      <h2>Capibara sorpresa</h2>
+      <figure>
+        <button type="button" id="boton-imagen" class="boton-imagen" aria-pressed="false" aria-label="Ver el reverso de la imagen del capibara">
+          <picture>
+            <source srcset="img/portada.webp" type="image/webp">
+            <img src="img/portada.jpg" alt="Capibara con un gorro andino de colores, un lazo rosa y una flor en la pata" width="800" height="800" loading="lazy">
+          </picture>
+        </button>
+        <figcaption>
+          Pulsa en el capibara para descubrir el reverso.
+          <span id="estado-imagen" class="estado-multimedia" aria-live="polite">Pulsa la imagen para darle la vuelta y descubrir el reverso.</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="audio" class="caja c-verde">
+      <h2>Audio</h2>
+      <audio id="audio-principal" controls preload="none">
+        <source src="audio/melodia.mp3" type="audio/mpeg">
+        <source src="audio/melodia.ogg" type="audio/ogg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+      <div id="ecualizador" class="ecualizador" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p id="estado-audio" class="estado-multimedia" aria-live="polite">Dale al play para escuchar la melodía.</p>
+    </section>
+
+    <section id="video" class="caja c-azul">
+      <h2>Vídeo</h2>
+      <video id="video-principal" controls preload="metadata" poster="img/poster.jpg" width="640" height="360">
+        <source src="video/demo.webm" type="video/webm">
+        <source src="video/demo.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de vídeo.
+      </video>
+      <p id="estado-video" class="estado-multimedia" aria-live="polite">Usa los controles para reproducir o pausar el vídeo.</p>
+    </section>
+
+    <section class="caja c-verde snake-game" aria-label="Minijuego Snake">
+      <div class="snake-marcador">
+        <p>Puntos <strong id="snake-puntos">0</strong></p>
+        <p>Récord <strong id="snake-record">0</strong></p>
+      </div>
+      <button type="button" class="boton boton-bonus" id="snake-iniciar">¡Jugar!</button>
+      <canvas id="snake-tablero" width="320" height="320" tabindex="0" aria-label="Tablero de Snake" aria-describedby="snake-ayuda snake-estado">
+        Tu navegador no puede mostrar el tablero de Snake.
+      </canvas>
+      <p id="snake-ayuda" class="snake-ayuda">Usa las flechas, WASD o los botones para comer fruta y evitar chocar.</p>
+      <div class="snake-controles" role="group" aria-label="Controles de dirección de Snake">
+        <button type="button" class="boton boton-bonus" data-direccion="arriba" aria-label="Mover arriba">▲</button>
+        <button type="button" class="boton boton-bonus" data-direccion="izquierda" aria-label="Mover izquierda">◀</button>
+        <button type="button" class="boton boton-bonus" data-direccion="abajo" aria-label="Mover abajo">▼</button>
+        <button type="button" class="boton boton-bonus" data-direccion="derecha" aria-label="Mover derecha">▶</button>
+      </div>
+      <p id="snake-estado" class="snake-estado" aria-live="polite">Pulsa «¡Jugar!» para empezar.</p>
+    </section>
+
+    <section id="youtube" class="caja c-naranja">
+      <h2>Vídeo de YouTube</h2>
+      <div class="yt">
+        <iframe src="https://www.youtube.com/embed/0g-7EJYMWH8" title="Tongo | Chop Suey versión peruana (Pomelo)" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section id="interactivo" class="caja c-verde">
+      <h2>Extras arcade</h2>
+
+      <button type="button" class="boton" onclick="saludar()">¡Púlsame!</button>
+      <p id="mensaje" class="resultado" aria-live="polite">Aún no has pulsado el botón.</p>
+
+      <p>¿Te atreves a conseguir todas las insignias?</p>
+      <div class="panel-contador">
+        <button type="button" class="boton boton-bonus" id="btn-bonus">¡Ganar 1 XP!</button>
+        <p class="puntos-contador">XP total <strong id="contador-clics">0</strong></p>
+        <p id="nivel-bonus" class="nivel-contador">Nivel 1 · Novata pixel</p>
+        <div
+          id="barra-nivel"
+          class="barra-nivel"
+          role="progressbar"
+          aria-label="Progreso al siguiente nivel"
+          aria-valuemin="0"
+          aria-valuemax="5"
+          aria-valuenow="0"
+        >
+          <span id="relleno-nivel"></span>
+        </div>
+        <p id="progreso-bonus" class="texto-progreso">0 / 5 XP para Exploradora</p>
+        <div class="insignias-bonus" role="list" aria-label="Insignias del contador">
+          <span class="insignia bloqueada" data-hito="1" role="listitem" aria-label="Bloqueada: Primer clic">★ Primer clic</span>
+          <span class="insignia bloqueada" data-hito="5" role="listitem" aria-label="Bloqueada: Racha de 5">★ Racha de 5</span>
+          <span class="insignia bloqueada" data-hito="10" role="listitem" aria-label="Bloqueada: Pro del clic">★ Pro del clic</span>
+          <span class="insignia bloqueada" data-hito="20" role="listitem" aria-label="Bloqueada: Leyenda arcade">★ Leyenda arcade</span>
+        </div>
+        <p id="mensaje-bonus" class="resultado" aria-live="polite">¡Pulsa el botón para empezar tu colección de insignias!</p>
+      </div>
+
+    </section>
+
+    <details id="fuentes" class="caja c-morado desplegable-fuentes">
+      <summary>Info y fuentes</summary>
+      <h3>Fuentes y licencias</h3>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr><th>Recurso</th><th>Autoría / fuente</th><th>Licencia</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>audio/melodia.mp3 · melodia.ogg</td><td>Creación propia (síntesis con Python)</td><td><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.es">CC0 1.0</a></td></tr>
+            <tr><td>video/demo.mp4 · demo.webm · poster.jpg</td><td>Creación propia (patrón de prueba generado con FFmpeg)</td><td><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.es">CC0 1.0</a></td></tr>
+            <tr><td>Vídeo incrustado «Tongo | Chop Suey versión peruana»</td><td>Canal Pomelo, YouTube, 2017 · <a href="https://www.youtube.com/watch?v=0g-7EJYMWH8">enlace al vídeo</a></td><td>Licencia estándar de YouTube (incrustado con el reproductor oficial)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </main>
+
+  <footer>
+    <p>Sara Monzó Fuentes <span aria-hidden="true">★</span> Gracias por pasarte por la sala arcade</p>
+  </footer>
+</body>
+</html>

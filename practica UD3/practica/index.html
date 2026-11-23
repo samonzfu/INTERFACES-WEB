@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Práctica final UD03: implantación de contenido multimedia">
+  <title>Práctica final – Contenido multimedia</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <p class="cinta">★ Implantación de contenido multimedia ★</p>
+    <h1>Actividad U3, estilo dosmilero <3</h1>
+    <nav aria-label="Secciones">
+      <a href="#imagen">Imagen</a>
+      <a href="#audio">Audio</a>
+      <a href="#video">Vídeo</a>
+      <a href="#youtube">YouTube</a>
+      <a href="#fuentes">Fuentes</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="imagen" class="caja c-rosa">
+      <h2>Imagen optimizada</h2>
+      <figure>
+        <picture>
+          <source srcset="img/portada.webp" type="image/webp">
+          <img src="img/portada.jpg" alt="Capibara con un gorro andino de colores, un lazo rosa y una flor en la pata" width="800" height="800" loading="lazy">
+        </picture>
+        <figcaption>JPG 800×800 (~125 KB) con alternativa WebP más ligera.</figcaption>
+      </figure>
+    </section>
+
+    <section id="audio" class="caja c-verde">
+      <h2>Audio</h2>
+      <audio controls preload="none">
+        <source src="audio/melodia.mp3" type="audio/mpeg">
+        <source src="audio/melodia.ogg" type="audio/ogg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </section>
+
+    <section id="video" class="caja c-azul">
+      <h2>Vídeo</h2>
+      <video controls preload="metadata" poster="img/poster.jpg" width="640" height="360">
+        <source src="video/demo.webm" type="video/webm">
+        <source src="video/demo.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de vídeo.
+      </video>
+    </section>
+
+    <section id="youtube" class="caja c-naranja">
+      <h2>Vídeo de YouTube</h2>
+      <div class="yt">
+        <iframe src="https://www.youtube.com/embed/0g-7EJYMWH8" title="Tongo | Chop Suey versión peruana (Pomelo)" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section id="fuentes" class="caja c-morado">
+      <h2>Fuentes y licencias</h2>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr><th>Recurso</th><th>Autoría / fuente</th><th>Licencia</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>audio/melodia.mp3 · melodia.ogg</td><td>Creación propia (síntesis con Python)</td><td><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.es">CC0 1.0</a></td></tr>
+            <tr><td>video/demo.mp4 · demo.webm · poster.jpg</td><td>Creación propia (patrón de prueba generado con FFmpeg)</td><td><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.es">CC0 1.0</a></td></tr>
+            <tr><td>Vídeo incrustado «Tongo | Chop Suey versión peruana»</td><td>Canal Pomelo, YouTube, 2017 · <a href="https://www.youtube.com/watch?v=0g-7EJYMWH8">enlace al vídeo</a></td><td>Licencia estándar de YouTube (incrustado con el reproductor oficial)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Sara Monzó Fuentes · DAW</p>
+  </footer>
+</body>
+</html>
